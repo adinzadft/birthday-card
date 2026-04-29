@@ -3,16 +3,13 @@ import { useState, useEffect, useRef } from 'react';
 import Confetti from 'react-confetti';
 
 export default function BirthdayPage() {
-  // State untuk mengunci/membuka section (0: Hero, 1: Tebak, 2: Kejar, 3: Reward)
-  const [stage, setStage] = useState(0);
+  const [stage, setStage] = useState<number>(0);
 
-  // Referensi untuk smooth scrolling
-  const guessRef = useRef(null);
-  const catchRef = useRef(null);
-  const rewardRef = useRef(null);
+  const guessRef = useRef<HTMLElement | null>(null);
+  const catchRef = useRef<HTMLElement | null>(null);
+  const rewardRef = useRef<HTMLElement | null>(null);
 
-  // Fungsi untuk scroll otomatis
-  const scrollTo = (ref) => {
+  const scrollTo = (ref: React.RefObject<HTMLElement | null>) => {
     setTimeout(() => {
       ref.current?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
@@ -67,7 +64,7 @@ export default function BirthdayPage() {
         <section ref={catchRef} className="min-h-screen flex flex-col items-center justify-center p-6 text-center border-t border-pink-100">
           <div className="max-w-md w-full bg-white p-8 rounded-3xl shadow-sm border border-pink-50 animate-fade-in">
             <h2 className="text-2xl font-semibold text-pink-800 mb-4">Wah, Beneran Ketebak!</h2>
-            <p className="text-slate-500 mb-8">
+            <p className="text-slate-500 mb-6">
               Oke, ini kadonya. Silakan diambil... kalau bisa tangkap ya! 🎁
             </p>
             <CatchTheGift 
@@ -93,25 +90,14 @@ export default function BirthdayPage() {
               Gak seberapa, tapi semoga bisa bikin kamu senyum hari ini. Jangan lupa diklaim ya. Sekali lagi, selamat ulang tahun.
             </p>
             
-            {/* Tombol Testing (Ganti tag button ke tag <a> kalau sudah mau di-deploy) */}
-            <button 
-              onClick={() => alert('Ini nanti diganti jadi link Dana Kaget ya!')}
-              className="w-full bg-rose-500 hover:bg-rose-600 text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-300 shadow-lg shadow-rose-200"
+            <a 
+              href="LINK_DANA_KAGET" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="block w-full bg-rose-500 hover:bg-rose-600 text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-300 shadow-lg shadow-rose-200"
             >
               Buka Kado
-            </button>
-            
-            {/* 
-              CONTOH KODE ASLI UNTUK DANA KAGET (Hapus komentar saat deploy):
-              <a 
-                href="LINK_DANA_KAGET" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="block w-full bg-rose-500 hover:bg-rose-600 text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-300 shadow-lg shadow-rose-200"
-              >
-                Buka Kado
-              </a> 
-            */}
+            </a> 
           </div>
         </section>
       )}
@@ -121,17 +107,19 @@ export default function BirthdayPage() {
 
 // --- KOMPONEN LOGIKA GAME ---
 
-function NumberGuessing({ onWin }) {
-  const [targetNumber, setTargetNumber] = useState(0);
-  const [guess, setGuess] = useState('');
-  const [message, setMessage] = useState('Masukkan tebakanmu');
-  const [won, setWon] = useState(false);
+function NumberGuessing({ onWin }: { onWin: () => void }) {
+  const [targetNumber, setTargetNumber] = useState<number>(0);
+  const [guess, setGuess] = useState<string>('');
+  const [message, setMessage] = useState<string>('Masukkan tebakanmu');
+  const [won, setWon] = useState<boolean>(false);
+  // Tambahkan state untuk menghitung percobaan
+  const [attempts, setAttempts] = useState<number>(0); 
 
   useEffect(() => {
     setTargetNumber(Math.floor(Math.random() * 100) + 1);
   }, []);
 
-  const handleGuess = (e) => {
+  const handleGuess = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (won) return;
 
@@ -141,10 +129,13 @@ function NumberGuessing({ onWin }) {
       return;
     }
 
+    // Tambah counter setiap kali tombol tebak ditekan
+    setAttempts((prev) => prev + 1);
+
     if (numGuess === targetNumber) {
       setMessage('Benar!');
       setWon(true);
-      setTimeout(onWin, 800); // Jeda sedikit biar dia baca tulisan 'Benar!'
+      setTimeout(onWin, 800);
     } else if (numGuess < targetNumber) {
       setMessage('Masih kurang gede nih angkanya.');
     } else {
@@ -175,16 +166,21 @@ function NumberGuessing({ onWin }) {
           Tebak
         </button>
       </div>
+      {/* Menampilkan jumlah tebakan di sini */}
+      <div className="text-sm text-slate-400 font-medium text-center mt-2">
+        Jumlah tebakan: {attempts}
+      </div>
     </form>
   );
 }
 
-function CatchTheGift({ onWin }) {
-  const [clicks, setClicks] = useState(0);
+function CatchTheGift({ onWin }: { onWin: () => void }) {
+  const [clicks, setClicks] = useState<number>(0);
   const [position, setPosition] = useState({ top: '50%', left: '50%' });
+  const MAX_CLICKS = 10;
 
   const moveButton = () => {
-    if (clicks >= 10) {
+    if (clicks >= MAX_CLICKS - 1) {
       onWin();
       return;
     }
@@ -196,15 +192,21 @@ function CatchTheGift({ onWin }) {
   };
 
   return (
-    <div className="relative w-full h-64 bg-slate-50 rounded-2xl border-2 border-dashed border-pink-200 overflow-hidden">
-      <button
-        onClick={moveButton}
-        onMouseEnter={moveButton}
-        style={{ top: position.top, left: position.left, transform: 'translate(-50%, -50%)', position: 'absolute' }}
-        className="text-5xl transition-all duration-300 ease-out hover:scale-110 drop-shadow-sm"
-      >
-        🎁
-      </button>
+    <div className="flex flex-col items-center w-full">
+      {/* Fitur Counter Percobaan Ditambahkan di Sini */}
+      
+      
+      <div className="relative w-full h-64 bg-slate-50 rounded-2xl border-2 border-dashed border-pink-200 overflow-hidden">
+        <button
+          type="button"
+          onClick={moveButton}
+          onMouseEnter={moveButton}
+          style={{ top: position.top, left: position.left, transform: 'translate(-50%, -50%)', position: 'absolute' }}
+          className="text-5xl transition-all duration-300 ease-out hover:scale-110 drop-shadow-sm"
+        >
+          🎁
+        </button>
+      </div>
     </div>
   );
 }
