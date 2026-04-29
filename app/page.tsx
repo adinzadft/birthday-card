@@ -25,8 +25,17 @@ export default function BirthdayPage() {
       
       {/* SECTION 1: HERO BANNER */}
       <section className="min-h-screen flex flex-col items-center justify-center p-6 text-center">
-        <div className="max-w-lg animate-fade-in-up">
-          <h1 className="text-4xl md:text-5xl font-bold text-pink-900 mb-6">
+        <div className="max-w-lg animate-fade-in-up flex flex-col items-center">
+          
+          {/* GIF Lucu di Halaman Utama */}
+          <img 
+            src="https://media.tenor.com/2sXv_QkQkKMAAAAi/peach-cat-cute.gif" 
+            alt="Cute Cat" 
+            className="w-32 h-32 mb-6 animate-float"
+          />
+
+          {/* Judul dengan Teks Animasi Gradasi */}
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-rose-400">
             Selamat Ulang Tahun.
           </h1>
           <p className="text-lg text-slate-600 mb-10 leading-relaxed">
@@ -34,7 +43,7 @@ export default function BirthdayPage() {
           </p>
           <button 
             onClick={startValidasi}
-            className="bg-rose-400 hover:bg-rose-500 text-white font-medium py-3 px-8 rounded-full transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1"
+            className="bg-rose-400 hover:bg-rose-500 text-white font-medium py-3 px-8 rounded-full transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 animate-bounce mt-4"
           >
             Geser ke bawah ya 👇
           </button>
@@ -81,8 +90,15 @@ export default function BirthdayPage() {
       {stage >= 3 && (
         <section ref={rewardRef} className="min-h-screen flex flex-col items-center justify-center p-6 text-center border-t border-pink-100 relative">
           <Confetti recycle={false} numberOfPieces={400} colors={['#fb7185', '#fda4af', '#fecdd3', '#cbd5e1']} />
-          <div className="max-w-md w-full animate-fade-in-up">
-            <div className="text-6xl mb-6 drop-shadow-md">🎉</div>
+          <div className="max-w-md w-full animate-fade-in-up flex flex-col items-center">
+            
+            {/* GIF Lucu Saat Menang */}
+            <img 
+              src="https://media.tenor.com/HqXv2uN9X-MAAAAi/peach-cat-cheer.gif" 
+              alt="Cheering Cat" 
+              className="w-32 h-32 mb-4 animate-float"
+            />
+            
             <h2 className="text-3xl font-bold text-pink-900 mb-4">
               Akhirnya ketangkap juga!
             </h2>
@@ -147,8 +163,6 @@ function NumberGuessing({ onWin }: { onWin: () => void }) {
       <div className="bg-pink-50 text-pink-700 px-4 py-3 rounded-xl text-sm font-medium w-full text-center">
         {message}
       </div>
-      
-      {/* BAGIAN INI YANG DIPERBAIKI UNTUK MOBILE */}
       <div className="flex flex-col sm:flex-row gap-3 w-full">
         <input
           type="number"
@@ -166,8 +180,6 @@ function NumberGuessing({ onWin }: { onWin: () => void }) {
           Tebak
         </button>
       </div>
-      {/* -------------------------------------- */}
-
       <div className="text-sm text-slate-400 font-medium text-center mt-2">
         Jumlah tebakan: {attempts}
       </div>
@@ -194,8 +206,6 @@ function CatchTheGift({ onWin }: { onWin: () => void }) {
 
   return (
     <div className="flex flex-col items-center w-full">
-      {/* Fitur Counter Percobaan Ditambahkan di Sini */}
-      
       
       <div className="relative w-full h-64 bg-slate-50 rounded-2xl border-2 border-dashed border-pink-200 overflow-hidden">
         <button

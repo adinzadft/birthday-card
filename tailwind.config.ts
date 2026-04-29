@@ -8,7 +8,6 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      // --- KONFIGURASI ANIMASI DITAMBAHKAN DI SINI ---
       keyframes: {
         'fade-in': {
           '0%': { opacity: '0' },
@@ -17,13 +16,18 @@ const config: Config = {
         'fade-in-up': {
           '0%': { opacity: '0', transform: 'translateY(20px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        // Animasi floating baru untuk GIF
+        'float': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-15px)' },
         }
       },
       animation: {
         'fade-in': 'fade-in 0.8s ease-out forwards',
         'fade-in-up': 'fade-in-up 0.8s ease-out forwards',
+        'float': 'float 3s ease-in-out infinite', // Menggunakan animasi float
       },
-      // ---------------------------------------------
     },
   },
   plugins: [],
