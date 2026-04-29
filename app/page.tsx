@@ -112,7 +112,6 @@ function NumberGuessing({ onWin }: { onWin: () => void }) {
   const [guess, setGuess] = useState<string>('');
   const [message, setMessage] = useState<string>('Masukkan tebakanmu');
   const [won, setWon] = useState<boolean>(false);
-  // Tambahkan state untuk menghitung percobaan
   const [attempts, setAttempts] = useState<number>(0); 
 
   useEffect(() => {
@@ -129,7 +128,6 @@ function NumberGuessing({ onWin }: { onWin: () => void }) {
       return;
     }
 
-    // Tambah counter setiap kali tombol tebak ditekan
     setAttempts((prev) => prev + 1);
 
     if (numGuess === targetNumber) {
@@ -145,28 +143,31 @@ function NumberGuessing({ onWin }: { onWin: () => void }) {
   };
 
   return (
-    <form onSubmit={handleGuess} className="flex flex-col gap-4">
-      <div className="bg-pink-50 text-pink-700 px-4 py-3 rounded-xl text-sm font-medium">
+    <form onSubmit={handleGuess} className="flex flex-col gap-4 w-full">
+      <div className="bg-pink-50 text-pink-700 px-4 py-3 rounded-xl text-sm font-medium w-full text-center">
         {message}
       </div>
-      <div className="flex gap-2">
+      
+      {/* BAGIAN INI YANG DIPERBAIKI UNTUK MOBILE */}
+      <div className="flex flex-col sm:flex-row gap-3 w-full">
         <input
           type="number"
           value={guess}
           onChange={(e) => setGuess(e.target.value)}
           disabled={won}
-          className="flex-1 border-2 border-pink-100 rounded-xl px-4 py-3 focus:outline-none focus:border-rose-300 bg-slate-50 transition-colors"
-          placeholder="..."
+          className="w-full sm:flex-1 border-2 border-pink-100 rounded-xl px-4 py-3 focus:outline-none focus:border-rose-300 bg-slate-50 transition-colors text-center sm:text-left text-lg"
+          placeholder="Ketik angka..."
         />
         <button 
           type="submit"
           disabled={won}
-          className="bg-pink-600 hover:bg-pink-700 disabled:bg-pink-300 text-white font-semibold py-3 px-6 rounded-xl transition-colors"
+          className="w-full sm:w-auto bg-pink-600 hover:bg-pink-700 disabled:bg-pink-300 text-white font-semibold py-3 px-8 rounded-xl transition-colors shadow-sm"
         >
           Tebak
         </button>
       </div>
-      {/* Menampilkan jumlah tebakan di sini */}
+      {/* -------------------------------------- */}
+
       <div className="text-sm text-slate-400 font-medium text-center mt-2">
         Jumlah tebakan: {attempts}
       </div>
