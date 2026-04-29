@@ -29,7 +29,7 @@ export default function BirthdayPage() {
           
           {/* GIF Lucu di Halaman Utama */}
           <img 
-            src="https://media.tenor.com/2sXv_QkQkKMAAAAi/peach-cat-cute.gif" 
+            src="https://media1.tenor.com/m/zDChDUnpKpAAAAAC/yellow-dragon-nailong.gif" 
             alt="Cute Cat" 
             className="w-32 h-32 mb-6 animate-float"
           />
@@ -94,7 +94,7 @@ export default function BirthdayPage() {
             
             {/* GIF Lucu Saat Menang */}
             <img 
-              src="https://media.tenor.com/HqXv2uN9X-MAAAAi/peach-cat-cheer.gif" 
+              src="https://media.tenor.com/8AuWgDmgPBIAAAAM/baongoc-dtbncuti.gif" 
               alt="Cheering Cat" 
               className="w-32 h-32 mb-4 animate-float"
             />
