@@ -3,8 +3,10 @@ import { useState, useEffect, useRef } from 'react';
 import Confetti from 'react-confetti';
 
 export default function BirthdayPage() {
+  // Stage: 0(Hero), 1(WordSearch), 2(Tebak), 3(KejarKado), 4(Reward)
   const [stage, setStage] = useState<number>(0);
 
+  const wordRef = useRef<HTMLElement | null>(null);
   const guessRef = useRef<HTMLElement | null>(null);
   const catchRef = useRef<HTMLElement | null>(null);
   const rewardRef = useRef<HTMLElement | null>(null);
@@ -17,7 +19,7 @@ export default function BirthdayPage() {
 
   const startValidasi = () => {
     setStage(1);
-    scrollTo(guessRef);
+    scrollTo(wordRef);
   };
 
   return (
@@ -26,20 +28,16 @@ export default function BirthdayPage() {
       {/* SECTION 1: HERO BANNER */}
       <section className="min-h-screen flex flex-col items-center justify-center p-6 text-center">
         <div className="max-w-lg animate-fade-in-up flex flex-col items-center">
-          
-          {/* GIF Lucu di Halaman Utama */}
           <img 
-            src="https://media1.tenor.com/m/zDChDUnpKpAAAAAC/yellow-dragon-nailong.gif" 
+            src="https://i.pinimg.com/originals/5b/0b/e7/5b0be74b4a170c804adff57682adc0af.gif" 
             alt="Cute Cat" 
             className="w-32 h-32 mb-6 animate-float"
           />
-
-          {/* Judul dengan Teks Animasi Gradasi */}
           <h1 className="text-4xl md:text-5xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-rose-400">
             Selamat Ulang Tahun.
           </h1>
-          <p className="text-lg text-slate-600 mb-10 leading-relaxed">
-            Dulu aku pernah bilang mau ngasih ucapan pas kamu ultah, dan janji tetaplah janji. Semoga di usia yang baru ini, kamu selalu sehat, bahagia, dan semua hal baik selalu ngikutin kamu.
+          <p className="text-lg text-slate-600 mb-10 leading-relaxed text-center">
+            Hari ini ulang tahunmu kan, seingetku dulu aku pernah ngomong bakal ngucapin ultah ke kamu. Jadi ini ya, semoga kamu diberi kemudahan dalam hal apapun :)
           </p>
           <button 
             onClick={startValidasi}
@@ -50,17 +48,43 @@ export default function BirthdayPage() {
         </div>
       </section>
 
-      {/* SECTION 2: TEBAK ANGKA */}
+      {/* SECTION 2: CARI KATA (TAHAP 1) */}
       {stage >= 1 && (
+        <section ref={wordRef} className="min-h-screen flex flex-col items-center justify-center p-6 text-center border-t border-pink-100">
+          <div className="max-w-md w-full bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-pink-50 animate-fade-in justify-center items-center flex flex-col">
+            <img 
+            src="https://i.pinimg.com/originals/2e/3d/d2/2e3dd24f01e6e6930c85d6bd58c50cd4.gif" 
+            alt="Cute Cat" 
+            className="w-32 h-32 mb-6 animate-float"
+          />
+            <p className="text-slate-500 mb-6">
+              Nanti ada kado di akhir tapi harus ngelewatin challenge dulu ya. HAVE FUN !!!<br></br> Coba cari kata <strong>HAPPY</strong>, <strong>BIRTHDAY</strong>, dan <strong>REFI</strong> di bawah ini dulu ya. Tap hurufnya!
+            </p>
+            <WordSearch 
+              onWin={() => {
+                setStage(2);
+                scrollTo(guessRef);
+              }} 
+            />
+          </div>
+        </section>
+      )}
+
+      {/* SECTION 3: TEBAK ANGKA (TAHAP 2) */}
+      {stage >= 2 && (
         <section ref={guessRef} className="min-h-screen flex flex-col items-center justify-center p-6 text-center border-t border-pink-100">
-          <div className="max-w-md w-full bg-white p-8 rounded-3xl shadow-sm border border-pink-50 animate-fade-in">
-            <h2 className="text-2xl font-semibold text-pink-800 mb-4">Ada Sedikit Kado</h2>
+          <div className="max-w-md w-full bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-pink-50 animate-fade-in justify-center items-center flex flex-col">
+            <img 
+            src="https://i.pinimg.com/originals/f8/a2/c6/f8a2c66d3ef1dc18f490cc63eb448970.gif" 
+            alt="Cute Cat" 
+            className="w-32 h-32 mb-6 animate-float"
+          />
             <p className="text-slate-500 mb-8">
-              Buat jajan. Tapi... main tebak-tebakan angka dulu ya (1-100). Coba tebak aku mikir angka berapa?
+              Umur kamu sekarang udah 19 kan ya(seingetku, maaf kalo salah hehe). kalo gitu, coba tebak angka antara <b>1 sampai 19</b>. 
             </p>
             <NumberGuessing 
               onWin={() => {
-                setStage(2);
+                setStage(3);
                 scrollTo(catchRef);
               }} 
             />
@@ -68,17 +92,22 @@ export default function BirthdayPage() {
         </section>
       )}
 
-      {/* SECTION 3: KEJAR KADO */}
-      {stage >= 2 && (
+      {/* SECTION 4: KEJAR KADO (TAHAP 3) */}
+      {stage >= 3 && (
         <section ref={catchRef} className="min-h-screen flex flex-col items-center justify-center p-6 text-center border-t border-pink-100">
-          <div className="max-w-md w-full bg-white p-8 rounded-3xl shadow-sm border border-pink-50 animate-fade-in">
-            <h2 className="text-2xl font-semibold text-pink-800 mb-4">Wah, Beneran Ketebak!</h2>
+          <div className="max-w-md w-full bg-white p-6 sm:p-8 rounded-3xl shadow-sm border border-pink-50 animate-fade-in justify-center items-center flex flex-col">
+            <img 
+            src="https://i.pinimg.com/originals/06/f2/34/06f234e2a9755034727503b797d57130.gif" 
+            alt="Cute Cat" 
+            className="w-32 h-32 mb-6 animate-float"
+          />
+          
             <p className="text-slate-500 mb-6">
-              Oke, ini kadonya. Silakan diambil... kalau bisa tangkap ya! 🎁
+              Keren ketebak lagi. Oke, ini kadonya. <b>Tangkap yang benerr !!!</b> 🎁
             </p>
             <CatchTheGift 
               onWin={() => {
-                setStage(3);
+                setStage(4);
                 scrollTo(rewardRef);
               }} 
             />
@@ -86,31 +115,32 @@ export default function BirthdayPage() {
         </section>
       )}
 
-      {/* SECTION 4: REWARD */}
-      {stage >= 3 && (
+      {/* SECTION 5: REWARD */}
+      {stage >= 4 && (
         <section ref={rewardRef} className="min-h-screen flex flex-col items-center justify-center p-6 text-center border-t border-pink-100 relative">
           <Confetti recycle={false} numberOfPieces={400} colors={['#fb7185', '#fda4af', '#fecdd3', '#cbd5e1']} />
           <div className="max-w-md w-full animate-fade-in-up flex flex-col items-center">
-            
-            {/* GIF Lucu Saat Menang */}
             <img 
-              src="https://media.tenor.com/8AuWgDmgPBIAAAAM/baongoc-dtbncuti.gif" 
+              src="https://i.pinimg.com/originals/5d/ca/ac/5dcaac4f881e17f521eccc0f700d65d6.gif" 
               alt="Cheering Cat" 
               className="w-32 h-32 mb-4 animate-float"
             />
-            
             <h2 className="text-3xl font-bold text-pink-900 mb-4">
-              Akhirnya ketangkap juga!
+              Hehe, kali ini beneran.
             </h2>
             <p className="text-lg text-slate-600 mb-10 leading-relaxed">
-              Gak seberapa, tapi semoga bisa bikin kamu senyum hari ini. Jangan lupa diklaim ya. Sekali lagi, selamat ulang tahun.
+              Gak seberapa sih, tapi semoga suka. Sekali lagi, Happy Birthday. Jangan lupa buka hadiahnya ya.
+            </p>
+
+            <p className="text-lg text-slate-600 mb-10 leading-relaxed">
+              GOOD LUCK FOR EVERYTHING YOU DO, AND MAY ALL YOUR WISHES COME TRUE.
             </p>
             
             <a 
-              href="LINK_DANA_KAGET" 
+              href="https://www.google.com" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="block w-full bg-rose-500 hover:bg-rose-600 text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-300 shadow-lg shadow-rose-200"
+              className="block w-full bg-rose-500 hover:bg-rose-600 text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-300 shadow-lg shadow-rose-200 text-center"
             >
               Buka Kado
             </a> 
@@ -123,37 +153,153 @@ export default function BirthdayPage() {
 
 // --- KOMPONEN LOGIKA GAME ---
 
+function WordSearch({ onWin }: { onWin: () => void }) {
+  const [grid, setGrid] = useState<string[][]>([]);
+  const [validCoords, setValidCoords] = useState<string[]>([]);
+  const [found, setFound] = useState<string[]>([]);
+  const [wrong, setWrong] = useState<string | null>(null);
+
+  // Algoritma untuk mengacak posisi kata saat komponen dimuat (refresh)
+  useEffect(() => {
+    const size = 8;
+    // Buat grid kosong 8x8
+    const newGrid = Array(size).fill(null).map(() => Array(size).fill(''));
+    const newValidCoords: string[] = [];
+    const words = ["HAPPY", "BIRTHDAY", "REFI"];
+
+    // Fungsi cek apakah kata bisa ditaruh tanpa nabrak batas atau nabrak huruf beda
+    const canPlace = (word: string, r: number, c: number, dir: string) => {
+      if (dir === 'H' && c + word.length > size) return false;
+      if (dir === 'V' && r + word.length > size) return false;
+      
+      for (let i = 0; i < word.length; i++) {
+        const currR = dir === 'V' ? r + i : r;
+        const currC = dir === 'H' ? c + i : c;
+        if (newGrid[currR][currC] !== '' && newGrid[currR][currC] !== word[i]) {
+          return false;
+        }
+      }
+      return true;
+    };
+
+    // Proses peletakan setiap kata secara acak
+    words.forEach(word => {
+      let placed = false;
+      let attempts = 0;
+      while (!placed && attempts < 100) {
+        // Random arah: H (Horizontal/Mendatar) atau V (Vertical/Menurun)
+        const dir = Math.random() < 0.5 ? 'H' : 'V';
+        const r = Math.floor(Math.random() * size);
+        const c = Math.floor(Math.random() * size);
+
+        if (canPlace(word, r, c, dir)) {
+          for (let i = 0; i < word.length; i++) {
+            const currR = dir === 'V' ? r + i : r;
+            const currC = dir === 'H' ? c + i : c;
+            newGrid[currR][currC] = word[i];
+            
+            const coord = `${currR}-${currC}`;
+            if (!newValidCoords.includes(coord)) {
+              newValidCoords.push(coord);
+            }
+          }
+          placed = true;
+        }
+        attempts++;
+      }
+    });
+
+    // Isi sisa grid yang masih kosong dengan huruf acak
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    for (let r = 0; r < size; r++) {
+      for (let c = 0; c < size; c++) {
+        if (newGrid[r][c] === '') {
+          newGrid[r][c] = alphabet[Math.floor(Math.random() * alphabet.length)];
+        }
+      }
+    }
+
+    setGrid(newGrid);
+    setValidCoords(newValidCoords);
+  }, []);
+
+  const handleTap = (r: number, c: number) => {
+    const key = `${r}-${c}`;
+    if (validCoords.includes(key)) {
+      if (!found.includes(key)) {
+        const newFound = [...found, key];
+        setFound(newFound);
+        if (newFound.length === validCoords.length) {
+          setTimeout(onWin, 800);
+        }
+      }
+    } else {
+      setWrong(key);
+      setTimeout(() => setWrong(null), 300);
+    }
+  };
+
+  // Mencegah error render sebelum grid selesai dibuat
+  if (grid.length === 0) return <div className="text-pink-400 font-medium">Menyusun huruf...</div>;
+
+  return (
+    <div className="flex flex-col items-center w-full animate-fade-in">
+      <div className="grid grid-cols-8 gap-1 sm:gap-2 w-full max-w-[320px] bg-slate-50 p-2 rounded-xl border-2 border-pink-100">
+        {grid.map((row, r) => row.map((letter, c) => {
+          const key = `${r}-${c}`;
+          const isFound = found.includes(key);
+          const isWrong = wrong === key;
+          return (
+            <button
+              key={key}
+              onClick={() => handleTap(r, c)}
+              className={`aspect-square flex items-center justify-center rounded-md text-sm sm:text-lg font-bold transition-all duration-200
+                ${isFound ? 'bg-pink-500 text-white scale-105 shadow-md' : 
+                  isWrong ? 'bg-red-400 text-white' : 
+                  'bg-white text-slate-600 border border-slate-200 active:scale-95'}`}
+            >
+              {letter}
+            </button>
+          );
+        }))}
+      </div>
+      <div className="text-xs font-bold mt-6 bg-pink-100 text-pink-700 px-4 py-2 rounded-full">
+        Ketemu: {found.length} / {validCoords.length} huruf
+      </div>
+    </div>
+  );
+}
+
 function NumberGuessing({ onWin }: { onWin: () => void }) {
   const [targetNumber, setTargetNumber] = useState<number>(0);
   const [guess, setGuess] = useState<string>('');
-  const [message, setMessage] = useState<string>('Masukkan tebakanmu');
+  const [message, setMessage] = useState<string>('Berapa angkanya?');
   const [won, setWon] = useState<boolean>(false);
   const [attempts, setAttempts] = useState<number>(0); 
 
   useEffect(() => {
-    setTargetNumber(Math.floor(Math.random() * 100) + 1);
+    const min = Math.ceil(1);
+    const max = Math.floor(19);
+    const nilai_rand = Math.floor(Math.random() * (max - min + 1) + min);
+    setTargetNumber(nilai_rand);
   }, []);
 
   const handleGuess = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (won) return;
-
     const numGuess = parseInt(guess);
-    if (isNaN(numGuess)) {
-      setMessage('Harus angka ya.');
-      return;
-    }
-
+    if (isNaN(numGuess)) return;
     setAttempts((prev) => prev + 1);
-
     if (numGuess === targetNumber) {
       setMessage('Benar!');
       setWon(true);
       setTimeout(onWin, 800);
+    } else if (numGuess > 19) {
+      setMessage('kurang dari 19 ya angkanya');
     } else if (numGuess < targetNumber) {
-      setMessage('Masih kurang gede nih angkanya.');
+      setMessage('Kurang gede dikit...');
     } else {
-      setMessage('Kebesaran, coba turunin dikit.');
+      setMessage('Kegedean, turunin!');
     }
     setGuess('');
   };
@@ -169,8 +315,8 @@ function NumberGuessing({ onWin }: { onWin: () => void }) {
           value={guess}
           onChange={(e) => setGuess(e.target.value)}
           disabled={won}
-          className="w-full sm:flex-1 border-2 border-pink-100 rounded-xl px-4 py-3 focus:outline-none focus:border-rose-300 bg-slate-50 transition-colors text-center sm:text-left text-lg"
-          placeholder="Ketik angka..."
+          className="w-full sm:flex-1 border-2 border-pink-100 rounded-xl px-4 py-3 focus:outline-none focus:border-rose-300 bg-slate-50 transition-colors text-center text-lg"
+          placeholder="..."
         />
         <button 
           type="submit"
@@ -180,7 +326,7 @@ function NumberGuessing({ onWin }: { onWin: () => void }) {
           Tebak
         </button>
       </div>
-      <div className="text-sm text-slate-400 font-medium text-center mt-2">
+      <div className="text-xs text-slate-400 font-medium text-center">
         Jumlah tebakan: {attempts}
       </div>
     </form>
@@ -190,7 +336,7 @@ function NumberGuessing({ onWin }: { onWin: () => void }) {
 function CatchTheGift({ onWin }: { onWin: () => void }) {
   const [clicks, setClicks] = useState<number>(0);
   const [position, setPosition] = useState({ top: '50%', left: '50%' });
-  const MAX_CLICKS = 10;
+  const MAX_CLICKS = 7;
 
   const moveButton = () => {
     if (clicks >= MAX_CLICKS - 1) {
@@ -199,14 +345,15 @@ function CatchTheGift({ onWin }: { onWin: () => void }) {
     }
     const randomTop = Math.floor(Math.random() * 70) + 15; 
     const randomLeft = Math.floor(Math.random() * 70) + 15; 
-    
     setPosition({ top: `${randomTop}%`, left: `${randomLeft}%` });
     setClicks((prev) => prev + 1);
   };
 
   return (
     <div className="flex flex-col items-center w-full">
-      
+      <div className="mb-4 bg-pink-100 text-pink-700 px-4 py-2 rounded-full text-sm font-bold">
+        Tertangkap: {clicks} / {MAX_CLICKS}
+      </div>
       <div className="relative w-full h-64 bg-slate-50 rounded-2xl border-2 border-dashed border-pink-200 overflow-hidden">
         <button
           type="button"
