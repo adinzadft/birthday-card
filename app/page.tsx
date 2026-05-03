@@ -148,7 +148,7 @@ export default function BirthdayPage() {
             </p>
             
             <a 
-              href="https://www.google.com" 
+              href="https://link.dana.id/danakaget?c=ssssbebyy&r=d9FFlM&orderId=20260503101214855315010300166440776768171" 
               target="_blank" 
               rel="noopener noreferrer"
               className="block w-full bg-rose-500 hover:bg-rose-600 text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-300 shadow-lg shadow-rose-200 text-center"
