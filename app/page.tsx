@@ -11,6 +11,9 @@ export default function BirthdayPage() {
   const catchRef = useRef<HTMLElement | null>(null);
   const rewardRef = useRef<HTMLElement | null>(null);
 
+  // 1. TAMBAHKAN REF UNTUK AUDIO DI SINI
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
   const scrollTo = (ref: React.RefObject<HTMLElement | null>) => {
     setTimeout(() => {
       ref.current?.scrollIntoView({ behavior: 'smooth' });
@@ -20,10 +23,18 @@ export default function BirthdayPage() {
   const startValidasi = () => {
     setStage(1);
     scrollTo(wordRef);
+
+    // 2. TAMBAHKAN PERINTAH PLAY AUDIO DI SINI
+    if (audioRef.current) {
+      audioRef.current.play().catch((err) => console.log("Audio ditahan browser:", err));
+    }
   };
 
   return (
     <div className="bg-pink-50 min-h-screen font-sans text-slate-700 overflow-x-hidden selection:bg-rose-200">
+
+      {/* 3. TAMBAHKAN TAG AUDIO DI DALAM DIV UTAMA */}
+      <audio ref={audioRef} src="/bgm.mp3" loop />
       
       {/* SECTION 1: HERO BANNER */}
       <section className="min-h-screen flex flex-col items-center justify-center p-6 text-center">
@@ -336,7 +347,7 @@ function NumberGuessing({ onWin }: { onWin: () => void }) {
 function CatchTheGift({ onWin }: { onWin: () => void }) {
   const [clicks, setClicks] = useState<number>(0);
   const [position, setPosition] = useState({ top: '50%', left: '50%' });
-  const MAX_CLICKS = 7;
+  const MAX_CLICKS = 10;
 
   const moveButton = () => {
     if (clicks >= MAX_CLICKS - 1) {
@@ -351,9 +362,7 @@ function CatchTheGift({ onWin }: { onWin: () => void }) {
 
   return (
     <div className="flex flex-col items-center w-full">
-      <div className="mb-4 bg-pink-100 text-pink-700 px-4 py-2 rounded-full text-sm font-bold">
-        Tertangkap: {clicks} / {MAX_CLICKS}
-      </div>
+      
       <div className="relative w-full h-64 bg-slate-50 rounded-2xl border-2 border-dashed border-pink-200 overflow-hidden">
         <button
           type="button"
